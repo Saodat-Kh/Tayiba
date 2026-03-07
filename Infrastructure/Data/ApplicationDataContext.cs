@@ -4,4 +4,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
-public class ApplicationDataContext(DbContextOptions<ApplicationDataContext> options) : IdentityDbContext<User,IdentityRole<int>,int>(options){}
+
+public class ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
+    : IdentityDbContext<User, IdentityRole<int>, int>(options)
+{
+    public DbSet<Category> Categories { get; set; }
+}

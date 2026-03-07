@@ -9,6 +9,7 @@ namespace WebApp.Controllers;
 public class AuthController(IAuthService service) : Controller
 {
     [HttpPost]
+   
     public async Task<IActionResult> Login(LoginDto dto)
     {
         var res = await service.Login(dto);

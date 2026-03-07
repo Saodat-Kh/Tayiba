@@ -1,10 +1,14 @@
-﻿using Application.Interfaces;
+﻿using System.Security.Claims;
+using System.Text;
+using Application.Interfaces;
 using Domain.Entities;
 
 using Infrastructure.Data;
 using Infrastructure.Helper;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebApp.Extensions;
 
@@ -21,11 +25,31 @@ public static class RegisterAuthService
             })
             .AddEntityFrameworkStores<ApplicationDataContext>()
             .AddDefaultTokenProviders();
+        services.AddAuthentication(options =>
+            {
+                options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                };
+            });
+
+        // services.AddAuthentication();
         services.AddScoped<JwtGenerate>();
-        services.AddScoped<IAuthService>(op=> new AuthService(
+        services.AddScoped<IAuthService>(op => new AuthService(
             op.GetRequiredService<UserManager<User>>(),
             op.GetRequiredService<JwtGenerate>()));
-        
     }
-    
+
 }

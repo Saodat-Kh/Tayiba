@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class Product
+public class Product : BaseEntities
 {
     
 }
