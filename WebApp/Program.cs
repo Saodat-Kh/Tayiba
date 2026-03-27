@@ -1,10 +1,19 @@
 using Infrastructure.Data;
+using Infrastructure.File;
+using Infrastructure.Profiles;
 using Infrastructure.Seed;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using WebApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Month, fileSizeLimitBytes: 10240)
+    .Enrich.FromLogContext()
+    .MinimumLevel.Debug());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -13,6 +22,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDBContext(builder.Configuration);
 //Auth⬇️
 builder.Services.AddAuth(builder.Configuration);
+//memoryCache
+builder.Services.AddMemoryCache();
+//autoMapper
+builder.Services.AddAutoMapper(typeof(MyMapper));
+//File
+builder.Services.AddScoped<IFileService>(op =>
+    new FileService(builder.Environment.ContentRootPath));
+//service
+builder.Services.AddRegisterService();
+
 //seed⬇️
 builder.Services.AddScoped<Seeder>();
 

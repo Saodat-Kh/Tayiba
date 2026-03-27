@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services;
 
-public class AuthService(UserManager<User> userManager, JwtGenerate jwtGenerate) : IAuthService
+public class AuthService(UserManager<AppUser> userManager, JwtGenerate jwtGenerate) : IAuthService
 {
     public async Task<Response<string>> Login(LoginDto login)
     {

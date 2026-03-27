@@ -1,13 +1,10 @@
-﻿using Domain.Entities;
-using Infrastructure.Data;
-
-namespace Infrastructure.Repository;
+﻿namespace Infrastructure.Repository.Category;
 
 public interface ICategoryRepository
 {
-    Task<int> AddCategory(Category category);
-    Task<int> UpdateCategory(Category category);
-    Task<int> DeleteCategory(Category category);
-    Task<List<Category>> GetCategories();
-    Task<Category> GetCategoryById(int id);
+    Task<int> AddCategory(Domain.Entities.Category category);
+    Task<int> UpdateCategory(Domain.Entities.Category category);
+    Task<int> DeleteCategory(Domain.Entities.Category category);
+    Task<List<Domain.Entities.Category>> GetCategories();
+    Task<Domain.Entities.Category> GetCategoryById(int id);
 }

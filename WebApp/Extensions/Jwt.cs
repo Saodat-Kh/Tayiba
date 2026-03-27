@@ -9,7 +9,7 @@ public static class Jwt
     public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
     {
        services.AddScoped<JwtGenerate>(o=> new JwtGenerate(
-           o.GetRequiredService<UserManager<User>>(),
-           configuration.GetSection("Jwt:Secret")));
+           o.GetRequiredService<UserManager<AppUser>>(),
+           configuration.GetSection("Jwt:Key")));
     }
 }

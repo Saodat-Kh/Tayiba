@@ -5,6 +5,7 @@ using Application.Responses;
 using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Repository;
+using Infrastructure.Repository.Category;
 
 namespace Infrastructure.Services;
 

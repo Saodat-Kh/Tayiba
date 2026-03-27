@@ -17,7 +17,7 @@ public static class RegisterAuthService
     public static void AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddIdentity<User, IdentityRole<int>>(options =>
+            .AddIdentity<AppUser, IdentityRole<int>>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
@@ -48,7 +48,7 @@ public static class RegisterAuthService
         // services.AddAuthentication();
         services.AddScoped<JwtGenerate>();
         services.AddScoped<IAuthService>(op => new AuthService(
-            op.GetRequiredService<UserManager<User>>(),
+            op.GetRequiredService<UserManager<AppUser>>(),
             op.GetRequiredService<JwtGenerate>()));
     }
 
