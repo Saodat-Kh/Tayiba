@@ -7,5 +7,5 @@ public class ProductVariant : BaseEntities
     public string? Color { get; set; }
     public string? Size { get; set; }
     public Product? Product { get; set; }
-    public int ItemProduct { get; set; }
+    public ItemProduct? ItemProduct { get; set; }
 }

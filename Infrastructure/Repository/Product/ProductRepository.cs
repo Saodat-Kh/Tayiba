@@ -36,13 +36,15 @@ public class ProductRepository(ApplicationDataContext context, IMemoryCache cach
 
     public async Task<List<Domain.Entities.Product>> GetAllProduct()
     {
-        if (!cache.TryGetValue(key, out var value))
+        if (!cache.TryGetValue(key, out List<Domain.Entities.Product> value))
         {
-            var res = await context.Products.Include(p=> p.ItemProducts).ToListAsync();
+            var res = await context.Products.Include(p=> p.ItemProducts)
+                .ThenInclude(x=> x.ProductVariants).ToListAsync();
             cache.Set(key,res, TimeSpan.FromMinutes(25));
+            return res;
         }
 
-        return cache.Get<List<Domain.Entities.Product>>(key);
+        return value;
     }
 
     public async Task<Domain.Entities.Product> GetProductById(int id)

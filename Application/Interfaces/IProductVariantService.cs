@@ -6,5 +6,5 @@ namespace Application.Interfaces;
 
 public interface IProductVariantService
 {
-    Task<Response<string>> CreateProductVariant(CreatedProductVariantWithId productVariant);
+    Task<Response<string>> CreateProductVariant(CreateVariantProductDto productVariant);
 }

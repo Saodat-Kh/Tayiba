@@ -7,4 +7,5 @@ public interface IOrderRepository
     Task<int> AddOrder(Order order);
     Task<List<Order>> GetOrders();
     Task<int> UpdateOrder(Order order);
+    Task<Order> GetOrderById(int Id);
 }

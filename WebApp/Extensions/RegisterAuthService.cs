@@ -16,6 +16,8 @@ public static class RegisterAuthService
 {
     public static void AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
+        System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
         services
             .AddIdentity<AppUser, IdentityRole<int>>(options =>
             {
@@ -27,7 +29,7 @@ public static class RegisterAuthService
             .AddDefaultTokenProviders();
         services.AddAuthentication(options =>
             {
-                options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+                // options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })

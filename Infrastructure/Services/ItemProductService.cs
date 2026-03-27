@@ -24,7 +24,8 @@ public class ItemProductService(IFileService file, ApplicationDataContext contex
             {
                 ProductId = createItemProductDto.ProductId,
                 Quantity = createItemProductDto.Quantity,
-                ProductVariants = new List<ProductVariant>()
+                ProductVariants = new List<ProductVariant>(),
+                Photo = new List<string>()
             };
             if(createItemProductDto.Photo != null)
                 foreach (var photo in  createItemProductDto.Photo )
@@ -32,14 +33,6 @@ public class ItemProductService(IFileService file, ApplicationDataContext contex
                     itemproduct.Photo.Add(await file.SaveFile(photo, "photo"));
                 }
         
-            foreach (var variant in createItemProductDto.VariantProducts)
-            {
-                itemproduct.ProductVariants.Add(new ProductVariant()
-                {
-                    Size = variant.Size,
-                    Color = variant.Color,
-                });
-            }
             var res = await repository.CreateItemProductAsync(itemproduct);
            return res > 0
                ? new Response<string>(HttpStatusCode.Created, "Product created successfully")
@@ -58,9 +51,12 @@ public class ItemProductService(IFileService file, ApplicationDataContext contex
            var rew = await repository.GetItemProductById(updateItemProductDto.Id);
            if(rew == null) return new Response<string>(HttpStatusCode.NotFound, "Product not found");
            rew.Quantity = updateItemProductDto.Quantity ?? rew.Quantity;
-           
-                
-           
+           foreach (var p in rew.ProductVariants)
+           {
+               p.Color = updateItemProductDto.Color;
+               p.Size = updateItemProductDto.Size;
+           }
+
             if (updateItemProductDto.Photo != null)
             {
                 var newItem = new List<string>();

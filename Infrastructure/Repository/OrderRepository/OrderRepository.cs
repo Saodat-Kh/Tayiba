@@ -11,21 +11,14 @@ public class OrderRepository(ApplicationDataContext context, IMemoryCache cache)
     public async Task<int> AddOrder(Order order)
     {
         context.Orders.Add(order);
-        var res = await context.SaveChangesAsync();
-        if(res > 0)
-            cache.Remove(key);
+        var res =  await context.SaveChangesAsync();
         return res;
     }
 
     public async Task<List<Order>> GetOrders()
     {
-        if (!cache.TryGetValue(key, out var value))
-        {
-            var res = await context.Orders.Include(o=> o.ProductVariant).ToListAsync();
-            cache.Set(key, res, TimeSpan.FromHours(2));
-        }
-
-        return cache.Get<List<Order>>(key);
+        var res = await context.Orders.Include(o=> o.Product).ToListAsync();
+        return res;
     }
     
     public async Task<int> UpdateOrder(Order order)
@@ -35,5 +28,10 @@ public class OrderRepository(ApplicationDataContext context, IMemoryCache cache)
         if(res > 0)
             cache.Remove(key);
         return res;
+    }
+
+    public async Task<Order> GetOrderById(int Id)
+    {
+        return await context.Orders.FirstOrDefaultAsync(x=> x.Id == Id);
     }
 }

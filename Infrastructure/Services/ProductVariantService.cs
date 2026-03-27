@@ -10,17 +10,22 @@ namespace Infrastructure.Services;
 
 public class ProductVariantService(IProductVariantRepository repository, IMapper mapper) : IProductVariantService
 {
-    public async Task<Response<string>> CreateProductVariant(CreatedProductVariantWithId productVariant)
+    public async Task<Response<string>> CreateProductVariant(CreateVariantProductDto productVariant)
     {
         var product = new ProductVariant()
         {
             
             ProductId = productVariant.ProductId,
-            ItemProduct = productVariant.ItemProductId
+            ItemProductId = productVariant.ItemProductId,
+            Color = productVariant.Color,
+            Size = productVariant.Size,
+            
         };
         var res = await repository.AddProductVariant(product);
         return res > 0 
             ? new Response<string>(HttpStatusCode.Created, "Created ProductVariant successfully")
             : new Response<string>(HttpStatusCode.BadRequest, "Failed to create ProductVariant");
     }
+
+   
 }

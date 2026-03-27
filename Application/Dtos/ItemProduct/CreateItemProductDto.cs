@@ -12,6 +12,4 @@ public class CreateItemProductDto
     public int Quantity { get; set; }
     [Required]
     public  List<IFormFile>? Photo { get; set; }
-    [Required]
-    public List<CreateVariantProductDto> VariantProducts { get; set; }
 }

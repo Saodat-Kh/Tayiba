@@ -8,7 +8,7 @@ namespace WebApp.Controllers;
 public class ProductVariantController(IProductVariantService service) : Controller
 {
     [HttpPost]
-    public async Task<IActionResult> CreateProductVariant([FromBody] CreatedProductVariantWithId productVariant)
+    public async Task<IActionResult> CreateProductVariant([FromBody] CreateVariantProductDto productVariant)
     {
         var res = await service.CreateProductVariant(productVariant);
         return StatusCode(res.StatusCode, res);

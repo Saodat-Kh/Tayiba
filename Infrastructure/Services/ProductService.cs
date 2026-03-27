@@ -89,7 +89,12 @@ public class ProductService(IProductRepository repository) : IProductService
                     Quantity = o.Quantity,
                     Photo = o.Photo ?? new List<string>(),
                     CreatedAt = o.CreatedAt,
-                   
+                     Variants = o.ProductVariants.Select(x=> new GetProductVariantDto()
+                     {
+                         Id = x.Id,
+                         Color = x.Color,
+                         Size = x.Size
+                     }).ToList()
                 }).ToList()
             }).ToList();
             return new Response<List<GetProductDto>>(rew);
