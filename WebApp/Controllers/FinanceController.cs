@@ -9,9 +9,9 @@ public class FinanceController(IFinancyService service) : Controller
 {
     [HttpGet]
     [Authorize (Roles = "Admin")]
-    public async Task<IActionResult> GetFinancy(DateTime dateTo, DateTime dateFrom)
+    public async Task<IActionResult> GetFinancy()
     {
-        var res = await service.GetFinancy( dateTo,  dateFrom);
+        var res = await service.GetFinancy();
         return StatusCode(res.StatusCode, res);
     }
 }

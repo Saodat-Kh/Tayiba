@@ -8,7 +8,7 @@ namespace Infrastructure.Services;
 
 public class FinanceService(IFinancyRepository repository) : IFinancyService
 {
-    public async Task<Response<GetFinanceDto>> GetFinancy(DateTime dateTo, DateTime dateFrom)
+    public async Task<Response<GetFinanceDto>> GetFinancy()
     {
         var income =await repository.GetIncome();
         var expence = await repository.GetExpense();
