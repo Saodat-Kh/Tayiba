@@ -5,5 +5,5 @@ namespace Application.Interfaces;
 
 public interface IFinancyService
 {
-    Task<Response<GetFinancyDto>> GetFinancy();
+    Task<Response<GetFinanceDto>> GetFinancy(DateTime dateTo, DateTime dateFrom);
 }

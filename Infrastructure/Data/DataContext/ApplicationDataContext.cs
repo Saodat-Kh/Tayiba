@@ -16,4 +16,5 @@ public class ApplicationDataContext(DbContextOptions<ApplicationDataContext> opt
     public DbSet<ProductVariant>  ProductVariants { get; set; }
   
     public DbSet<Financy>  Financies { get; set; }
+ 
 }

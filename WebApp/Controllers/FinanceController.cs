@@ -8,9 +8,10 @@ namespace WebApp.Controllers;
 public class FinanceController(IFinancyService service) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> GetFinancy()
+    [Authorize (Roles = "Admin")]
+    public async Task<IActionResult> GetFinancy(DateTime dateTo, DateTime dateFrom)
     {
-        var res = await service.GetFinancy();
+        var res = await service.GetFinancy( dateTo,  dateFrom);
         return StatusCode(res.StatusCode, res);
     }
 }

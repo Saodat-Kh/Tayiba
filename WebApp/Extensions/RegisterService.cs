@@ -73,7 +73,9 @@ public static class RegisterService
             op.GetRequiredService<ApplicationDataContext>(),
             op.GetRequiredService<IMemoryCache>()));
         //financeService
-        services.AddScoped<IFinancyService>(op => new FinanceService(
-            op.GetRequiredService<IFinancyRepository>()));
+        // services.AddScoped<IFinancyService>(op => new FinanceService(
+        //     op.GetRequiredService<IFinancyRepository>()));
+        //
+        // services.AddScoped<IDashboardService, DashboardService>();
     }
 }
