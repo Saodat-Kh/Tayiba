@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.ItemProduct;
 using Application.Dtos.Product;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers;
@@ -9,6 +10,7 @@ namespace WebApp.Controllers;
 public class ItemProductController(IItemProductService service) : Controller
 {
     [HttpPost]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> CreateProduct([FromForm] CreateItemProductDto dto)
     {
         var res = await service.CreateItemProduct(dto);
@@ -24,6 +26,7 @@ public class ItemProductController(IItemProductService service) : Controller
     }
 
     [HttpPut]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> UpdateProduct([FromForm] UpdateItemProductDto updateProductDto)
     {
         var res = await service.UpdateItemProduct(updateProductDto);
@@ -31,6 +34,7 @@ public class ItemProductController(IItemProductService service) : Controller
     }
 
     [HttpDelete]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> DeleteProduct(int id)
     {
         var res = await service.DeleteItemProduct(id);

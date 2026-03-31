@@ -10,7 +10,7 @@ namespace WebApp.Controllers;
 public class CategoryController(ICategoryService service) : Controller
 {
     [HttpPost]
-    // [Authorize(Roles = "Admin")]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
     {
         var res = await service.CreateCategory(dto);
@@ -24,8 +24,8 @@ public class CategoryController(ICategoryService service) : Controller
         return StatusCode(res.StatusCode, res);
     }
 
-    [HttpPut]
-    // [Authorize(Roles = "Admin")]
+    [HttpPut("id")]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto dto)
     {
         var res = await service.UpdateCategory(dto);
@@ -33,7 +33,7 @@ public class CategoryController(ICategoryService service) : Controller
     }
 
     [HttpDelete]
-    // [Authorize(Roles = "Admin")]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> DeleteCategory(int id)
     {
         var res = await service.DeleteCategory(id);

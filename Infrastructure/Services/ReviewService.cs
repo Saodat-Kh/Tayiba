@@ -15,7 +15,7 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
     {
         var map = mapper.Map<Review>(dto);
         map.Status = StatusReview.Expected;
-        map.CreatedAt = DateTime.Now;
+        map.CreatedAt = DateTime.UtcNow;
         var res = await repository.CreateReview(map);
         if (res > 0)
         {

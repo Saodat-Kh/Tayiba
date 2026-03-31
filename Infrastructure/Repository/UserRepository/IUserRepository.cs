@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.Repository.UserRepository;
+﻿using Domain.Entities;
 
-public class IUserRepository
+namespace Infrastructure.Repository.UserRepository;
+
+public interface IUserRepository
 {
-    
+    Task<AppUser> GetUserById(int userId);
 }

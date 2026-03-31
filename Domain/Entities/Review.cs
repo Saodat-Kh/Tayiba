@@ -14,6 +14,5 @@ public class Review : BaseEntities
     //navigation 
     public int? ProductId { get; set; }
     public Product? Product { get; set; }
-    
-    
+
 }

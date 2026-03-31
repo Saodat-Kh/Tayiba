@@ -22,11 +22,14 @@ public class CategoryService(ICategoryRepository repository,IMapper mapper) : IC
 
     public async Task<Response<string>> UpdateCategory(UpdateCategoryDto categoryDto)
     {
-        var map = mapper.Map<Category>(categoryDto);
-        var res = await repository.UpdateCategory(map);
+        var category = await repository.GetCategoryById(categoryDto.Id);
+        if(category == null) return new Response<string>(HttpStatusCode.NotFound, "Category not found");
+        category.Name = categoryDto.Name;
+        category.Slug = categoryDto.Slug;
+        var res = await repository.UpdateCategory(category);
         return res > 0
-            ? new Response<string>(HttpStatusCode.OK, "Category updated successfully")
-            : new Response<string>(HttpStatusCode.BadRequest, "Category updation failed");
+                ? new Response<string>(HttpStatusCode.OK, "Category updated successfully")
+                : new Response<string>(HttpStatusCode.BadRequest, "Category updation failed");
     }
 
     public async Task<Response<string>> DeleteCategory(int id)

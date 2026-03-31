@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Review;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers;
@@ -15,6 +16,7 @@ public class ReviewController(IReviewService service) : Controller
     }
 
     [HttpGet("ForAdmin")]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> GetReviewsForAdmin()
     {
         var res = await service.GetAllReview();
@@ -29,6 +31,7 @@ public class ReviewController(IReviewService service) : Controller
     }
 
     [HttpPut]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> Update(int id, UpdateReviewDto dto)
     {
         var res = await service.UpdateReview(id, dto);

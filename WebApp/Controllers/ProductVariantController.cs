@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.ProductVariant;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers;
@@ -8,6 +9,7 @@ namespace WebApp.Controllers;
 public class ProductVariantController(IProductVariantService service) : Controller
 {
     [HttpPost]
+    [Authorize (Roles = "Admin")]
     public async Task<IActionResult> CreateProductVariant([FromBody] CreateVariantProductDto productVariant)
     {
         var res = await service.CreateProductVariant(productVariant);

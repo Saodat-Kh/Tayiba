@@ -25,6 +25,7 @@ public class ProductService(IProductRepository repository) : IProductService
             Price = createProductDto.Price,
             CategoryId = createProductDto.CategoryId,
             Description = createProductDto.Description,
+            
         };
         var res =  await repository.AddProduct(product);
         return res > 0
@@ -82,6 +83,7 @@ public class ProductService(IProductRepository repository) : IProductService
                 Name = p.Name,
                 Description = p.Description,
                 CategoryId = p.CategoryId ?? 0,
+                Price = p.Price,
                 CreatedAt = p.CreatedAt,
                 Items = p.ItemProducts.Select(o=> new GetItemProductDto()
                 {
@@ -89,12 +91,12 @@ public class ProductService(IProductRepository repository) : IProductService
                     Quantity = o.Quantity,
                     Photo = o.Photo ?? new List<string>(),
                     CreatedAt = o.CreatedAt,
-                     Variants = o.ProductVariants.Select(x=> new GetProductVariantDto()
-                     {
+                    Variants = o.ProductVariants.Select(x=> new GetProductVariantDto()
+                    {
                          Id = x.Id,
                          Color = x.Color,
                          Size = x.Size
-                     }).ToList()
+                    }).ToList()
                 }).ToList()
             }).ToList();
             return new Response<List<GetProductDto>>(rew);

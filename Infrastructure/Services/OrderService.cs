@@ -4,7 +4,6 @@ using Application.Dtos.Order;
 using Application.Dtos.OrderForAdmin;
 using Application.Dtos.Product;
 using Application.Dtos.Products;
-using Application.Dtos.ProductVariant;
 using Application.Interfaces;
 using Application.Responses;
 using AutoMapper;
@@ -13,16 +12,21 @@ using Infrastructure.Repository.OrderRepository;
 
 namespace Infrastructure.Services;
 
-public class OrderService(IOrderRepository repository, IMapper mapper) : IOrderService
+public class OrderService(IOrderRepository repository) : IOrderService
 {
     public async Task<Response<string>> CreateOrder(CreateOrderDto dto)
     {
-        var map = mapper.Map<Order>(dto);
-        var res = await repository.AddOrder(map);
-        
-        return res > 0
-            ? new Response<string>(HttpStatusCode.Created, "Order Created successfully")
-            : new Response<string>(HttpStatusCode.BadRequest, " Order Creation Failed");
+        var order = new Order()
+        {
+            CustomerName = dto.CustomerName,
+            CustomerPhone = dto.CustomerPhone,
+            ProductVariantId = dto.ProductVariantId
+            
+        };
+        var res = await repository.AddOrder(order);
+         return res > 0
+             ? new Response<string>(HttpStatusCode.Created, "Order Created successfully")
+             : new Response<string>(HttpStatusCode.BadRequest, " Order Creation Failed");
         
     }
 
@@ -38,15 +42,14 @@ public class OrderService(IOrderRepository repository, IMapper mapper) : IOrderS
            CustomerPhone = p.CustomerPhone,
            CreatedAt = p.CreatedAt,
            Status = p.Status,
-           Product = new  SimpleGetProductDto()
+           Product = p.ProductVariant.Product!= null ? new  SimpleGetProductDto()
            {
-               Id  = p.Product!.Id,
-               Name = p.Product.Name,
-               Price = p.Product.Price
-           }
-           
+               Id  = p.ProductVariant.ProductId ?? 0,
+               Name = p.ProductVariant.Product.Name,
+               Price = p.ProductVariant.Product.Price
+           }: null
        }).ToList();
-       return new Response<List<GetOrderWithProductDto>>(rew) ?? null;
+       return new Response<List<GetOrderWithProductDto>>(rew) ;
     }
 
     public async Task<Response<string>> UpdateOrder(UpdateOrderDto dto)

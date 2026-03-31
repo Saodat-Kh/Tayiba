@@ -1,6 +1,12 @@
-﻿namespace Infrastructure.Repository.UserRepository;
+﻿using Domain.Entities;
+using Infrastructure.Data;
 
-public class UserRepository
+namespace Infrastructure.Repository.UserRepository;
+
+public class UserRepository(ApplicationDataContext context) : IUserRepository 
 {
-    
+    public async Task<AppUser> GetUserById(int userId)
+    {
+        return await context.Users.FindAsync(userId);
+    }
 }

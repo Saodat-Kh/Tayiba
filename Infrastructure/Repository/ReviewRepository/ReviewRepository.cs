@@ -8,7 +8,6 @@ namespace Infrastructure.Repository.ReviewRepository;
 
 public class ReviewRepository(ApplicationDataContext context) : IReviewRepository
 {
-    private readonly string key = "review";
     public async Task<int> CreateReview(Review review)
     {
         context.Reviews.Add(review);
@@ -37,6 +36,6 @@ public class ReviewRepository(ApplicationDataContext context) : IReviewRepositor
 
     public async Task<Review> GetById(int id)
     {
-        return await context.Reviews.FindAsync(id);
+        return await context.Reviews.FirstOrDefaultAsync(p=> p.Id == id);
     }
 }

@@ -10,6 +10,6 @@ public static class Jwt
     {
        services.AddScoped<JwtGenerate>(o=> new JwtGenerate(
            o.GetRequiredService<UserManager<AppUser>>(),
-           configuration.GetSection("Jwt:Key")));
+           configuration)); 
     }
 }

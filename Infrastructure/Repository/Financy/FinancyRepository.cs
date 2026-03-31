@@ -16,7 +16,7 @@ public class FinancyRepository(ApplicationDataContext context, IMemoryCache cach
         if (!cache.TryGetValue(income, out decimal valued))
         {
             valued = await context.Orders.Where(p=> p.Status == OrderStatus.COMPLETE && p.CreatedAt >= dataFrom && p.CreatedAt <= dataTo).SumAsync(p => p.Price);
-            cache.Set(income, valued, TimeSpan.FromHours(102));
+            cache.Set(income, valued, TimeSpan.FromHours(2));
         }
         return valued;
     }

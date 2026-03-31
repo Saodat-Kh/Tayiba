@@ -55,12 +55,10 @@ public static class RegisterService
             op.GetRequiredService<IMapper>()));
         //OrderRepository
         services.AddScoped<IOrderRepository>(op=> new OrderRepository(
-            op.GetRequiredService<ApplicationDataContext>(),
-            op.GetRequiredService<IMemoryCache>()));
+            op.GetRequiredService<ApplicationDataContext>()));
         //OrderService
         services.AddScoped<IOrderService>(op=> new OrderService(
-            op.GetRequiredService<IOrderRepository>(),
-            op.GetRequiredService<IMapper>()));
+            op.GetRequiredService<IOrderRepository>()));
         
         //ReviewRepository
         services.AddScoped<IReviewRepository>(op => new ReviewRepository(
@@ -70,11 +68,11 @@ public static class RegisterService
             op.GetRequiredService<IReviewRepository>(),
             op.GetRequiredService<IMapper>()));
         
-        //financy
+        //financeRepository
         services.AddScoped<IFinancyRepository>(op=> new FinancyRepository(
             op.GetRequiredService<ApplicationDataContext>(),
             op.GetRequiredService<IMemoryCache>()));
-
+        //financeService
         services.AddScoped<IFinancyService>(op => new FinanceService(
             op.GetRequiredService<IFinancyRepository>()));
     }
