@@ -19,13 +19,14 @@ public class JwtGenerate(
         var creadentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var claims = new List<Claim>()
         {
-            new Claim(JwtRegisteredClaimNames.Name, appUser.UserName),
+            new Claim(JwtRegisteredClaimNames.Sub, appUser.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.UniqueName, appUser.UserName),
             new Claim(JwtRegisteredClaimNames.Email, appUser.Email),
-            new Claim(JwtRegisteredClaimNames.NameId, appUser.Id.ToString())
+            new Claim("nameid", appUser.Id.ToString())
         };
 
         var roles = await userManager.GetRolesAsync(appUser);
-        claims.AddRange(roles.Select(role=> new Claim(ClaimTypes.Role, role)));
+        claims.AddRange(roles.Select(role=> new Claim("role", role)));
 
         var token = new JwtSecurityToken(
             issuer: config["Jwt:Issuer"],

@@ -19,15 +19,15 @@ public class OrderController(IOrderService service) : Controller
     }
 
     [HttpGet]
-    
+   
     public async Task<IActionResult> GetOrders()
     {
         var res = await service.GetAllOrders();
         return StatusCode(res.StatusCode, res);
     }
 
-    [HttpPut]
-    [Authorize(Roles = "Admin")]
+    [HttpPut("id")]
+ 
     public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderDto dto)
     {
         var res = await service.UpdateOrder(dto);

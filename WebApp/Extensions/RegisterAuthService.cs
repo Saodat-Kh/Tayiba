@@ -16,7 +16,7 @@ public static class RegisterAuthService
 {
     public static void AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+         System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
         services
             .AddIdentity<AppUser, IdentityRole<int>>(options =>
@@ -43,7 +43,11 @@ public static class RegisterAuthService
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
+                    
+                    RoleClaimType = "role",
+                    NameClaimType = "unique_name",
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 

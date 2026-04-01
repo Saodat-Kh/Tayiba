@@ -4,7 +4,7 @@ using Infrastructure.Data;
 using Infrastructure.File;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Category;
-using Infrastructure.Repository.Financy;
+using Infrastructure.Repository.Finance;
 using Infrastructure.Repository.ItemProductRepository;
 using Infrastructure.Repository.OrderRepository;
 using Infrastructure.Repository.Product;
@@ -69,12 +69,11 @@ public static class RegisterService
             op.GetRequiredService<IMapper>()));
         
         //financeRepository
-        services.AddScoped<IFinancyRepository>(op=> new FinancyRepository(
-            op.GetRequiredService<ApplicationDataContext>(),
-            op.GetRequiredService<IMemoryCache>()));
+        services.AddScoped<IFinanceRepository>(op=> new FinanceRepository(
+            op.GetRequiredService<ApplicationDataContext>()));
         //financeService
-        // services.AddScoped<IFinancyService>(op => new FinanceService(
-        //     op.GetRequiredService<IFinancyRepository>()));
+         services.AddScoped<IFinanceService>(op => new FinanceService(
+             op.GetRequiredService<IFinanceRepository>()));
         //
         // services.AddScoped<IDashboardService, DashboardService>();
     }

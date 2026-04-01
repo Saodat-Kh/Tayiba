@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApp.Controllers;
 [ApiController]
 [Route("api/[controller]")]
-public class FinanceController(IFinancyService service) : Controller
+public class FinanceController(IFinanceService service) : Controller
 {
     [HttpGet]
-    [Authorize (Roles = "Admin")]
+  
     public async Task<IActionResult> GetFinancy()
     {
         var res = await service.GetFinancy();

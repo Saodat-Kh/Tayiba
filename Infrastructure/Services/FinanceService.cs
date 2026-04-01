@@ -1,22 +1,23 @@
-﻿using System.Net;
+﻿
 using Application.Dtos.Financy;
 using Application.Interfaces;
 using Application.Responses;
-using Infrastructure.Repository.Financy;
+
+using Infrastructure.Repository.Finance;
 
 namespace Infrastructure.Services;
 
-public class FinanceService(IFinancyRepository repository) : IFinancyService
+public class FinanceService(IFinanceRepository repository) : IFinanceService
 {
     public async Task<Response<GetFinanceDto>> GetFinancy()
     {
         var income =await repository.GetIncome();
-        var expence = await repository.GetExpense();
+        var expense = await repository.GetExpense();
         var dto = new GetFinanceDto()
         {
             Income = income,
-            Expenses = expence,
-            Profit = income - expence
+            Expenses = expense,
+            Profit = income - expense
         };
         return new Response<GetFinanceDto>(dto);
 
